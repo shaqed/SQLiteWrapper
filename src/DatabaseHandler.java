@@ -27,6 +27,8 @@ public abstract class DatabaseHandler {
     private String dbURL;
     private File dbFile;
 
+    private boolean verbose = true;
+
     /**
      * Given a jdbc-formatted-url, the DB File is created and the onCreate() method is being invoked if the
      * file is being created for the first time.
@@ -56,6 +58,11 @@ public abstract class DatabaseHandler {
         } else {
             throw new SQLException("Bad url argument, " + dbURL + " doesn't start with: jdbc:sqlite:[url-here]");
         }
+    }
+
+    public DatabaseHandler(String dbURL, boolean verbose) throws SQLException {
+        this(dbURL);
+        this.verbose = verbose;
     }
 
     /**
@@ -353,6 +360,14 @@ public abstract class DatabaseHandler {
             System.out.println("getConnection("+this.dbURL+") returned null... database connection denied");
         }
         return connection;
+    }
+
+
+    // TODO - pass all prints through this method right here
+    private void debug(String msg) {
+        if (this.verbose) {
+            System.out.println("DB DEBUG: " + msg);
+        }
     }
 
 }
