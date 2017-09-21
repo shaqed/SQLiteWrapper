@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,10 +41,27 @@ public class ExampleDB extends DatabaseHandler {
 
     public void addNewStudent() {
         Map<String, Object> contentValues = new HashMap<>();
-        contentValues.put(COL_NAME, "Shaked");
+        contentValues.put(COL_NAME, "Shaked3");
         try {
             insert(TABLE_NAME, contentValues);
             System.out.println("Added a new student");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void printDB() {
+        try {
+            QueryData data = rawQuery("SELECT * FROM Students");
+
+
+            do {
+                System.out.print(data.getString("_id"));
+                System.out.println(data.getString("Name") + ", ");
+            } while (data.nextRow());
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
